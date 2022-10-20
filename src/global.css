@@ -12,3 +12,9 @@
     --purple-dark: #5e60ce;
     --danger: #e25858;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
