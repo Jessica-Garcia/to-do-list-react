@@ -1,0 +1,16 @@
+.tasksContainer {
+    height: 17.9375rem;
+    position: absolute;
+    top: 18.1875rem;
+    width: 46rem;
+    font-family: var(--default-font);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@media(max-width: 45.8125rem) {
+    .tasksContainer {
+        max-width: 90%;
+    }
+}
