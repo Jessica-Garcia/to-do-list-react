@@ -1,12 +1,15 @@
-import './App.css'
+import style from './App.module.css'
+import { CreateTask } from './components/CreateTask'
+import { Header } from './components/Header'
+import { TaskBox } from './components/TaskBox'
 
-function App() {
+export const App = () => {
 
   return (
-    <div className="App">
-      <h1>ToDo List</h1>
+    <div className={style.App}>
+      <Header/>
+      <TaskBox/>
     </div>
   )
 }
 
-export default App
