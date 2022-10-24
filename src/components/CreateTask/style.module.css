@@ -49,6 +49,7 @@
 
 .createTaskButton:hover {
     background: var(--blue);
+    cursor: pointer;
 }
 
 @media(max-width: 45.8125rem) {
