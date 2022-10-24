@@ -1,0 +1,6 @@
+.taskList {
+    border-top: var(--gray-400) 1px solid;
+    border-radius: 8px;
+    display: flex;
+    gap: 1rem;
+}
