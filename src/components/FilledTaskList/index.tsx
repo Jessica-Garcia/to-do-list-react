@@ -5,6 +5,7 @@ export const FilledTaskList = () => {
     return(
         <section className={style.taskList}>
             <Task/>
+            <Task/>
         </section>
     )
 }
