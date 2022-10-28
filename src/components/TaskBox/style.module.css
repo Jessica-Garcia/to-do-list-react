@@ -13,7 +13,7 @@
     display: flex;
     gap: .5rem;
     position: absolute;
-    top: -7.7125rem;
+    top: -7.4125rem;
     z-index: 1;
 }
 
@@ -62,6 +62,10 @@
 .createTaskButton:hover {
     background: var(--blue);
     cursor: pointer;
+}
+
+.createTaskButton:disabled{
+    cursor: not-allowed;
 }
 
 .taskInfo {
