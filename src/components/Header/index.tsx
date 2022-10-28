@@ -1,6 +1,5 @@
 import style from './style.module.css'
 import logo from '../../assets/logoToDo.png'
-import { CreateTask } from '../CreateTask'
 
 export const Header = () => {
     return(
@@ -8,7 +7,6 @@ export const Header = () => {
             <div className={style.logo}>
                 <img src={logo} alt="Logo" />
             </div>
-            <CreateTask/>
         </header>
     )
 }
