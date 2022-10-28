@@ -5,10 +5,15 @@ interface TaskProps {
     content: string,
     isComplete: boolean,
     handleComplete: (id: string, isCompleteTask: boolean) => void
+    onDeleteTask: (id: string) => void
 }
 
-export const Task = ({id, content, isComplete, handleComplete}: TaskProps) => {
-
+export const Task = ({id, content, isComplete, handleComplete, onDeleteTask}: TaskProps) => {
+    
+    const handleDeleteTask = () => {
+        onDeleteTask(id)
+    }
+    
     return (
         <div className={style.taskContent}>
             <input 
@@ -26,7 +31,10 @@ export const Task = ({id, content, isComplete, handleComplete}: TaskProps) => {
                 </span>
             </label>
 
-            <button title='Delete' className={style.trashButton}>
+            <button
+                onClick={handleDeleteTask}
+                title='Delete' 
+                className={style.trashButton}>
                 <Trash size={16}/>
             </button>
         </div>  

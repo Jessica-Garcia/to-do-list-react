@@ -3,7 +3,7 @@ import { TaskListEmpty } from '../TaskListEmpty'
 import { PlusCircle } from 'phosphor-react'
 import { Task } from '../Task'
 import { v4 as uuidv4 } from 'uuid'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 type TasksObject = {
     id: string,
@@ -16,20 +16,12 @@ export const TaskBox = () => {
     const [newTaskContent, setNewTaskContent] = useState('')
     const [taskList, setTaskList] = useState<TasksObject[]>([])
 
-    const handleIsCompleteChange = (id: string, myNewStatus: boolean) => {
-        const newTaskList = taskList.map(task => {
-            if(task.id === id ){
-                return{
-                    ...task,
-                    isComplete: myNewStatus
-                }
-            }
-            return task
-        })
+    useEffect(() => {
+        const localStorageItems = localStorage.getItem('taskList')
+        setTaskList(localStorageItems ? JSON.parse(localStorageItems) : [])
 
-        setTaskList(newTaskList)
-    }
-    console.log(taskList)
+    }, [])
+
     const handleTaskContent = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskContent(() => e.target.value)
     }
@@ -43,9 +35,38 @@ export const TaskBox = () => {
             isComplete: false,
         }
 
+        const localStorageItems = localStorage.getItem('taskList')
+        const taskList = localStorageItems ? JSON.parse(localStorageItems) : []
+        
+        localStorage.setItem("taskList", JSON.stringify([...taskList, newTask]))
+
         setTaskList(currentValue => ([...currentValue, newTask]))
         setNewTaskContent('')
     }
+
+    const handleIsCompleteChange = (id: string, taskNewStatus: boolean) => {
+        const newTaskList = taskList.map(task => {
+            if(task.id === id ){
+                return{
+                    ...task,
+                    isComplete: taskNewStatus
+                }
+            }
+            return task
+        })
+        localStorage.setItem("taskList", JSON.stringify([...newTaskList]))
+        setTaskList(newTaskList)
+    }
+
+    const deleteTask = (id: string) => {
+        const taskListWithoutDeletedTask = taskList.filter(task => task.id !== id)
+        
+        localStorage.setItem("taskList", JSON.stringify([...taskListWithoutDeletedTask]))
+
+        setTaskList(taskListWithoutDeletedTask)
+    }
+
+    const isTaskContentEmpty = newTaskContent.length === 0
 
     return (
         <main className={style.tasksContainer}>
@@ -58,11 +79,12 @@ export const TaskBox = () => {
                     className={style.taskInput}
                     onChange={handleTaskContent}
                     value={newTaskContent}
+                    required
                 />
                 <button 
                     type="submit"
                     className={style.createTaskButton}
-                    
+                    disabled={isTaskContentEmpty} 
                 >
                     Criar <PlusCircle weight='bold' size={18}/>
                 </button>
@@ -94,6 +116,7 @@ export const TaskBox = () => {
                                         content={task.content}
                                         isComplete={task.isComplete}
                                         handleComplete={handleIsCompleteChange}
+                                        onDeleteTask = {deleteTask}
                                     />
                                 )
                             })
