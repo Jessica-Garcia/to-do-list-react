@@ -1,42 +1,30 @@
-import { Trash } from 'phosphor-react'
-import style from './style.module.css'
-interface TaskProps {
-    id: string,
-    content: string,
-    isComplete: boolean,
-    handleComplete: (id: string, isCompleteTask: boolean) => void
-    onDeleteTask: (id: string) => void
+import style from "./style.module.css";
+import { ITask } from "../../@types/ITask";
+import { CheckCircle, Trash } from "phosphor-react";
+
+interface Props {
+  task: ITask;
+  onCompleteTask: (taskId: string) => void;
+  onDeleteTask: (taskId: string) => void;
 }
 
-export const Task = ({id, content, isComplete, handleComplete, onDeleteTask}: TaskProps) => {
-    
-    const handleDeleteTask = () => {
-        onDeleteTask(id)
-    }
-    
-    return (
-        <div className={style.taskContent}>
-            <input 
-                type="checkbox" 
-                name="check" 
-                id={id}
-                className={style.checkInput}
-                checked={isComplete}
-                onChange = {() => handleComplete(id, !isComplete)}
-            />
-            <label htmlFor={id} className={style.title}>
-                <span className={style.checkSpan}></span>
-                <span className={style.titleSpan}>
-                    {content}
-                </span>
-            </label>
+export function Task({ task, onCompleteTask, onDeleteTask }: Props) {
+  return (
+    <div className={style.task}>
+      <button
+        className={style.checkContainer}
+        onClick={() => onCompleteTask(task.id)}
+      >
+        {task.isCompleted ? <CheckCircle /> : <div />}
+      </button>
 
-            <button
-                onClick={handleDeleteTask}
-                title='Delete' 
-                className={style.trashButton}>
-                <Trash size={16}/>
-            </button>
-        </div>  
-    )
+      <p className={task.isCompleted ? style.textCompleted : ""}>
+        {task.title}
+      </p>
+
+      <button className={style.deleteButton} onClick={() => onDeleteTask(task.id)}>
+        <Trash size={20} />
+      </button>
+    </div>
+  );
 }
